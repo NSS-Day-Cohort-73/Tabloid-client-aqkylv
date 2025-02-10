@@ -1,0 +1,82 @@
+// Users and Profile
+Table UserProfiles {
+  id int [pk]
+  firstName varchar
+  lastName varchar
+  address varchar
+  profilePicture varchar
+  joinedAt datetime
+}
+
+// Posts
+Table Posts {
+  id int [pk]
+  authorId int [ref: > UserProfiles.id]
+  title varchar
+  subTitle varchar
+  categoryId int [ref: > Categories.id]
+  publishingDate datetime
+  hasRedirects varchar
+  body varchar
+  readTime int
+}
+
+// Comments
+Table Comments {
+  id int [pk]
+  authorId int [ref: > UserProfiles.id]
+  postId int [ref: > Posts.id]
+  content varchar
+  createdDate datetime
+}
+
+// Subscriptions
+Table Subscriptions {
+  id int [pk]
+  subscriberId int [ref: > UserProfiles.id]
+  authorId int [ref: > UserProfiles.id]
+}
+
+// Categories
+Table Categories {
+  id int [pk]
+  name varchar
+}
+
+// Tags
+Table Tags {
+  id int [pk]
+  name varchar
+}
+
+// Post Tags (Junction table for Posts and Tags)
+Table PostTags {
+  id int [pk]
+  postId int [ref: > Posts.id]
+  tagId int [ref: > Tags.id]
+}
+
+// Reactions
+Table Reactions {
+  id int [pk]
+  name varchar
+  icon varchar
+}
+
+// Post Reactions (Junction table for Posts and Reactions)
+Table PostReactions {
+  id int [pk]
+  postId int [ref: > Posts.id]
+  reactionId int [ref: > Reactions.id]
+}
+
+// Indexes
+TableGroup CommonIndexes {
+  Posts.authorId
+  Comments.authorId
+  Comments.postId
+  PostTags.postId
+  PostTags.tagId
+  PostReactions.postId
+  PostReactions.reactionId
+}
