@@ -1,14 +1,27 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Outlet } from "react-router-dom";
 import { AuthorizedRoute } from "./auth/AuthorizedRoute";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
+import NavBar from "./NavBar"; // Ensure you import your NavBar component
+import CategoryList from "./categories/CategoryList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
     <Routes>
-      <Route path="/">
+      <Route
+        path="/"
+        element={
+          <>
+            <NavBar
+              loggedInUser={loggedInUser}
+              setLoggedInUser={setLoggedInUser}
+            />
+            <Outlet />
+          </>
+        }
+      >
         <Route
           index
           element={
@@ -17,7 +30,31 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             </AuthorizedRoute>
           }
         />
-        <Route path="/userprofiles">
+        <Route
+          path="explore"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <p>Explore</p>
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="subscribed-posts"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <p>Subscribed Posts</p>
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="my-posts"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <p>My Posts</p>
+            </AuthorizedRoute>
+          }
+        />
+        <Route path="userprofiles">
           <Route
             index
             element={
@@ -35,6 +72,22 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
         </Route>
+        <Route
+          path="categories"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <CategoryList />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="tags"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <p>Tags</p>
+            </AuthorizedRoute>
+          }
+        />
         <Route
           path="login"
           element={<Login setLoggedInUser={setLoggedInUser} />}
