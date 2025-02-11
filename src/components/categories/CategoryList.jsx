@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { addCategory, getAllCategories } from "../../managers/categoryManager";
 import { Button, Col, Container, Form, Input, Row, Table } from "reactstrap";
 import CategoryItem from "./CategoryItem";
+import "./CategoryStyle.css";
 
 function CategoryList() {
   const [categories, setCategories] = useState([]);
@@ -30,10 +31,12 @@ function CategoryList() {
   return (
     <Container className="mx-auto mt-4">
       {/* Categories Table */}
-      <Table hover striped className="text-center">
+      <Table hover striped className="text-center w-50 mx-auto border">
         <thead>
           <tr>
-            <th>Category Name</th>
+            <th>
+              <h2>Category Name</h2>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -55,8 +58,8 @@ function CategoryList() {
             />
           </Col>
           <Col xs="auto">
-            <Button onClick={handleAddCategory} color="primary">
-              Add
+            <Button onClick={handleAddCategory} className="save-btn">
+              Save
             </Button>
           </Col>
         </Row>
