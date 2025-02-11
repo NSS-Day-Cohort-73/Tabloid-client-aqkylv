@@ -1,0 +1,25 @@
+.save-btn {
+  background-color: var(--green);
+  color: white;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.save-btn:hover {
+  opacity: 1;
+  background-color: var(--green);
+}
+
+.delete-btn {
+  background-color: var(--red);
+  color: white;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  background-color: var(--red);
+}
