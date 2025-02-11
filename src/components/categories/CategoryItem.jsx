@@ -1,10 +1,9 @@
-import { Col, Row } from "reactstrap";
-
-function CategoryItem ({category}) {
-    return (
-      <Row >
-        <Col className="text-center">{category.name}</Col>
-      </Row>
-    );
+function CategoryItem({ category, index }) {
+  return (
+    <tr>
+      <td>{category.name}</td>
+    </tr>
+  );
 }
+
 export default CategoryItem;
