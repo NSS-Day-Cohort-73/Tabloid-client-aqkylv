@@ -29,13 +29,9 @@ This README is comprehensive of both Frontend and Backend features. The Backend 
 - View all user profiles with admin privileges
 
 ### Content Management
-- Post creation and management system
-- Category organization for posts
-- View all posts with filtering capabilities
 - Posts display with title, author, and category information
 - Publication date tracking for all posts
-- Comment system for user engagement on posts
-- Real-time comment updates
+
 
 ### Admin Features
 - Category management interface
