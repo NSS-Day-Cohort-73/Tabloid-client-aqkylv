@@ -62,3 +62,72 @@ Ensure you have the following installed:
 ```bash
 git clone git@github.com:NSS-Day-Cohort-73/Tabloid-client-aqkylv.git
 cd Tabloid
+
+2. Configure User Secrets (Backend)
+```bash
+dotnet user-secrets init
+dotnet user-secrets set AdminPassword password
+dotnet user-secrets set TabloidDbConnectionString "Host=localhost;Port=5432;Username=postgres;Password=password;Database=Tabloid"
+```
+
+3. Setup Backend
+```bash
+dotnet restore
+dotnet build
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+```
+
+4. Setup Frontend
+```bash
+cd client
+npm install
+```
+
+### Testing the Setup
+
+1. Start the API (backend) in debug mode
+2. In a separate terminal, start the frontend:
+```bash
+cd client
+npm start
+```
+3. Navigate to the application in your browser
+4. Login with:
+   - Email: admina@strator.comx
+   - Password: [your configured AdminPassword]
+
+## Project Structure
+```
+Tabloid/
+├── Controllers/
+├── Models/
+├── DTOs/
+├── Properties/
+├── Images/
+├── client/
+├── Program.cs
+├── TabloidDbContext.cs
+└── [other configuration files]
+```
+
+## Styling Guide
+
+### Color Palette
+- Red: `#db534b`
+- Grey: `#6c767d`
+- Black: `#343a40`
+- Green: `#5bb8a6`
+
+## Development Team
+- Nicholas Homoelle (@herringvoices)
+- MLee Law (@mleelaw)
+- Christopher Johnson (@CJohnson7741)
+
+
+
+## Notes
+
+- Functionality is prioritized over styling
+- The application includes a pre-configured admin user for initial setup
+- UI/UX improvements should be considered secondary to core functionality
