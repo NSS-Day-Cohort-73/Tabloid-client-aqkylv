@@ -33,3 +33,10 @@ export const addCategory = async (category) => {
     throw res;
   }
 };
+
+//Delete a category
+export const deleteCategory = async (id) => {
+  await fetch(`/api/category/${id}`, {
+    method: "DELETE",
+  });
+};
