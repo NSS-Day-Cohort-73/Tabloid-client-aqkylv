@@ -6,6 +6,7 @@ import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import NavBar from "./NavBar"; // Ensure you import your NavBar component
 import CategoryList from "./categories/CategoryList";
+import PostList from "./posts/PostList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -34,7 +35,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="explore"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>Explore</p>
+              <PostList />
             </AuthorizedRoute>
           }
         />
