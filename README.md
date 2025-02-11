@@ -31,6 +31,7 @@ This README is comprehensive of both Frontend and Backend features. The Backend 
 ### Content Management
 - Posts display with title, author, and category information
 - Publication date tracking for all posts
+- Categories displayed with filterable input
 
 
 ### Admin Features
