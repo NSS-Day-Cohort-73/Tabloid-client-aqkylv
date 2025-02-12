@@ -66,7 +66,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           }
         />
         <Route
-          path="comments/:postId"
+          path="posts/:postId/comments"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <CommentsList />
