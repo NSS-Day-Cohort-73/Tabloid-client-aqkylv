@@ -7,6 +7,7 @@ import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import NavBar from "./NavBar"; // Ensure you import your NavBar component
 import CategoryList from "./categories/CategoryList";
 import PostList from "./posts/PostList";
+import CreateAPost from "./posts/CreateAPost";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -36,6 +37,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <PostList />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="createpost"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <CreateAPost loggedInUser={loggedInUser}/>
             </AuthorizedRoute>
           }
         />
