@@ -1,0 +1,35 @@
+.post-form {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.post-form h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-field {
+    margin-bottom: 15px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    width: 100%;
+}
+
+textarea {
+    min-height: 200px;
+}
+
+.button-container {
+    text-align: right;
+    margin-top: 20px;
+}
