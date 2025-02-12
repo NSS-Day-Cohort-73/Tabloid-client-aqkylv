@@ -4,10 +4,11 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
-import NavBar from "./NavBar"; // Ensure you import your NavBar component
+import NavBar from "./NavBar";
 import CategoryList from "./categories/CategoryList";
 import PostList from "./posts/PostList";
 import CreateAPost from "./posts/CreateAPost";
+import CommentsList from "./comments/CommentsList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -61,6 +62,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <p>My Posts</p>
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="posts/:postId/comments"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <CommentsList />
             </AuthorizedRoute>
           }
         />
