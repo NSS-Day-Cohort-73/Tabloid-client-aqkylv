@@ -1,0 +1,29 @@
+
+.full-width-image-background {
+  width: 100%;
+  background-color: #f7f0f0; 
+  
+}
+
+.header-image-container {
+  justify-content: center;
+ 
+}
+
+.header-image {
+  width: 70%; 
+  height: 400px; 
+  object-fit: cover;
+}
+
+.post-details-card {
+ 
+  border: none;
+  box-shadow: none;
+  text-align: center;
+}
+
+.post-author {
+  padding: 2rem;
+  text-align: center;
+}

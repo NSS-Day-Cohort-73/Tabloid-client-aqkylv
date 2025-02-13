@@ -40,3 +40,15 @@ export const deleteCategory = async (id) => {
     method: "DELETE",
   });
 };
+
+//Update a category
+export const updateCategory = async (category) => {
+    await fetch(`/api/category/${category.id}`, {
+        method: "PUT",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(category),
+    });
+    
+    }

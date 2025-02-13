@@ -6,6 +6,7 @@ import { Spinner } from "reactstrap";
 import NavBar from "./components/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
 
+
 function App() {
   const [loggedInUser, setLoggedInUser] = useState();
 
@@ -15,6 +16,10 @@ function App() {
       setLoggedInUser(user);
     });
   }, []);
+  // Fix for Draft.js using setImmediate in browser
+  if (typeof window !== "undefined" && !window.setImmediate) {
+    window.setImmediate = (fn, ...args) => setTimeout(fn, 0, ...args);
+  }
 
   // wait to get a definite logged-in state before rendering
   if (loggedInUser === undefined) {
