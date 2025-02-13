@@ -34,22 +34,38 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="navbar-route" tag={RRNavLink} to="/explore">
+                  <NavLink
+                    className="navbar-route"
+                    tag={RRNavLink}
+                    to="/explore"
+                  >
                     Explore
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="navbar-route" tag={RRNavLink} to="/subscribed-posts">
+                  <NavLink
+                    className="navbar-route"
+                    tag={RRNavLink}
+                    to="/subscribed-posts"
+                  >
                     Subscribed Posts
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="navbar-route" tag={RRNavLink} to="/my-posts">
+                  <NavLink
+                    className="navbar-route"
+                    tag={RRNavLink}
+                    to="/my-posts"
+                  >
                     My Posts
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="navbar-route" tag={RRNavLink} to="/categories">
+                  <NavLink
+                    className="navbar-route"
+                    tag={RRNavLink}
+                    to="/categories"
+                  >
                     Categories
                   </NavLink>
                 </NavItem>
@@ -60,7 +76,11 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                 </NavItem>
                 {loggedInUser.roles.includes("Admin") && (
                   <NavItem>
-                    <NavLink className="navbar-route" tag={RRNavLink} to="/userprofiles">
+                    <NavLink
+                      className="navbar-route"
+                      tag={RRNavLink}
+                      to="/userprofiles"
+                    >
                       User Profiles
                     </NavLink>
                   </NavItem>
@@ -68,7 +88,7 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
               </Nav>
             </Collapse>
             <Button
-              color="primary"
+              color="danger"
               onClick={(e) => {
                 e.preventDefault();
                 setOpen(false);

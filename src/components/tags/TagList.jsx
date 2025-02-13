@@ -3,7 +3,9 @@ import { addTag, getAllTags } from "../../managers/tagManager";
 import { Button, Col, Container, Form, Input, Row, Table } from "reactstrap";
 import TagItem from "./TagItem";
 
-function TagList() {
+function TagList({ loggedInUser }) {
+  if (!loggedInUser.isAdmin)
+    return <h1 className="text-center">Unauthorized</h1>;
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState("");
 
