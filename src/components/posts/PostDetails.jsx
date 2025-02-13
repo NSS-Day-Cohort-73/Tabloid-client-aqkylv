@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Container } from "reactstrap";
 import { useParams, Link  } from 'react-router-dom';
-import { getById } from "../../managers/postManager";
+import { deletePost, getById } from "../../managers/postManager";
 
 export default function PostDetails() {
   const [post, setPost] = useState(null);
@@ -21,6 +21,11 @@ export default function PostDetails() {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
+
+  const deletePostFromDB = (id) => {
+    deletePost(id).then()
+  }
+  
 
   return (
     <div className="content-container">
@@ -69,6 +74,14 @@ export default function PostDetails() {
             className="button-color"
           >
             Add A Comment
+          </Button>
+
+          <Button
+            tag={Link}
+            onClick={() => deletePostFromDB(post.id)}
+            className="button-color"
+          >
+            Delete Post
           </Button>
         </div>
       </Container>
