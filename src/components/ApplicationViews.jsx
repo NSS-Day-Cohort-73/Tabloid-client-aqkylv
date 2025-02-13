@@ -11,7 +11,7 @@ import CreateAPost from "./posts/CreateAPost";
 import CommentsList from "./comments/CommentsList";
 import PostDetails from "./posts/PostDetails";
 import CreateComment from "./comments/CreateComment";
-import MyPosts from "./posts/MyPosts";
+import TagList from "./tags/TagList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -130,7 +130,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="tags"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>Tags</p>
+              <TagList loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />

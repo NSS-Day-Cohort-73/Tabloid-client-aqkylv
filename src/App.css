@@ -55,3 +55,58 @@
   min-height: 100px;
   padding: 10px;
 }
+
+.nav-item:hover {
+  background-color: var(--green);
+  border-radius: 8px;
+}
+
+.delete-p {
+  color: var(--red);
+  cursor: pointer;
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+.delete-p:hover {
+  font-weight: bold;
+  opacity: 1;
+}
+
+.edit-p {
+  color: var(--green);
+  cursor: pointer;
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+.edit-p:hover {
+  font-weight: bold;
+  opacity: 1;
+}
+
+.save-btn {
+  background-color: var(--green);
+  color: white;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.save-btn:hover {
+  opacity: 1;
+  background-color: var(--green);
+}
+
+.delete-btn {
+  background-color: var(--red);
+  color: white;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  background-color: var(--red);
+}
