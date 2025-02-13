@@ -91,6 +91,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             </AuthorizedRoute>
           }
         />
+        <Route
+          path="post/:postId/comments/:commentId/edit"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <CreateComment loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
         <Route path="userprofiles">
           <Route
             index

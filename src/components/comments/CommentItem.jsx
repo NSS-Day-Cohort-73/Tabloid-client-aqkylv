@@ -9,10 +9,12 @@ import {
   Button,
 } from "reactstrap";
 import { deleteComment } from "../../managers/commentManager";
+import { useNavigate } from "react-router-dom";
 
 function CommentItem({ loggedInUser, comment, getAndSet }) {
   const [commentDate, setCommentDate] = useState("");
   const [modal, setModal] = useState(false);
+  const navigate = useNavigate();
 
   // Function to format ISO date
   function formatISOToCustom(isoString) {
@@ -32,11 +34,10 @@ function CommentItem({ loggedInUser, comment, getAndSet }) {
     setCommentDate(formatISOToCustom(comment.creationDate));
   }, [comment.creationDate]);
 
-  
   const handleDelete = async () => {
     deleteComment(comment.id).then(() => {
       getAndSet();
-      setModal(false); 
+      setModal(false);
     });
   };
 
@@ -65,9 +66,25 @@ function CommentItem({ loggedInUser, comment, getAndSet }) {
           <Row>
             <Col>
               <div dangerouslySetInnerHTML={{ __html: comment.content }} />
+
               {loggedInUser?.id === comment.authorId && (
-                <p className="text-end delete-p" onClick={() => setModal(true)}>
-                  Delete
+                <p className="text-end ">
+                  <span
+                    className="edit-p mx-2"
+                    onClick={() =>
+                      navigate(
+                        `/post/${comment.postId}/comments/${comment.id}/edit`
+                      )
+                    }
+                  >
+                    Edit
+                  </span>
+                  <span
+                    className="text-end delete-p"
+                    onClick={() => setModal(true)}
+                  >
+                    Delete
+                  </span>
                 </p>
               )}
             </Col>
