@@ -13,3 +13,7 @@ export const createPost = (post) => {
     body: JSON.stringify(post),
   }).then((res) => res.json());
 };
+
+export const getById = (id) => {
+  return fetch(`${_apiUrl}/${id}`).then((res) => res.json());
+}

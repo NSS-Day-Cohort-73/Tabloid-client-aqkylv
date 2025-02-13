@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, Label, Container } from "reactstrap";
 import { getAllCategories } from "../../managers/categoryManager";
 import "./PostStyle.css";
-import { createPost, getAllPosts } from "../../managers/postManager";
+import { createPost} from "../../managers/postManager";
 
 export default function CreateAPost({ loggedInUser }) {
   const navigate = useNavigate();

@@ -9,6 +9,7 @@ import CategoryList from "./categories/CategoryList";
 import PostList from "./posts/PostList";
 import CreateAPost from "./posts/CreateAPost";
 import CommentsList from "./comments/CommentsList";
+import PostDetails from "./posts/PostDetails";
 import CreateComment from "./comments/CreateComment";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
@@ -39,6 +40,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <PostList />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="post/:id"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <PostDetails />
             </AuthorizedRoute>
           }
         />
