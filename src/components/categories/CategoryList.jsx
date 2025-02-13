@@ -41,7 +41,12 @@ function CategoryList() {
         </thead>
         <tbody>
           {categories.map((category, index) => (
-            <CategoryItem key={category.id} category={category} index={index} />
+            <CategoryItem
+              key={category.id}
+              getAndSetCategories={getAndSetCategories}
+              category={category}
+              index={index}
+            />
           ))}
         </tbody>
       </Table>

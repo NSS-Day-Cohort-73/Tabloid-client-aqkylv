@@ -4,9 +4,13 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
-import NavBar from "./NavBar"; // Ensure you import your NavBar component
+import NavBar from "./NavBar";
 import CategoryList from "./categories/CategoryList";
 import PostList from "./posts/PostList";
+import CreateAPost from "./posts/CreateAPost";
+import CommentsList from "./comments/CommentsList";
+import PostDetails from "./posts/PostDetails";
+import CreateComment from "./comments/CreateComment";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -40,6 +44,22 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           }
         />
         <Route
+          path="post/:id"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <PostDetails />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="createpost"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <CreateAPost loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
           path="subscribed-posts"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
@@ -52,6 +72,22 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <p>My Posts</p>
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="post/:postId/comments"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <CommentsList loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="post/:postId/comments/add"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <CreateComment loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
