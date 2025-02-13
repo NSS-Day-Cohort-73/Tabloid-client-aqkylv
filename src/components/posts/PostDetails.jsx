@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Container } from "reactstrap";
-import { useParams, Link  } from 'react-router-dom';
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { deletePost, getById } from "../../managers/postManager";
 
-export default function PostDetails() {
+export default function PostDetails({ loggedInUser }) {
   const [post, setPost] = useState(null);
   const { id } = useParams();
-
+  const navigate = useNavigate();
   useEffect(() => {
     getById(id).then(setPost);
   }, [id]);
@@ -23,9 +23,12 @@ export default function PostDetails() {
   };
 
   const deletePostFromDB = (id) => {
-    deletePost(id).then()
-  }
-  
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      deletePost(id).then(() => {
+        navigate("/explore");
+      });
+    }
+  };
 
   return (
     <div className="content-container">
@@ -44,45 +47,48 @@ export default function PostDetails() {
           </Card>
         </Container>
       </div>
-  
+
       <Container>
         <Card className="post-details-card">
           <div className="post-content">
-            <h1 className="post-title text-center">{post.title.toUpperCase()}</h1>
+            <h1 className="post-title text-center">
+              {post.title.toUpperCase()}
+            </h1>
             <div className="post-meta text-center">
-              <span className="post-author">By: {post.author?.identityUser?.userName}</span>
+              <span className="post-author">
+                By: {post.author?.identityUser?.userName}
+              </span>
               <span className="mx-2">•</span>
               <span>{formatDate(post.publishingDate)}</span>
             </div>
-            <div className="post-body">
-              {post.content}
-            </div>
+            <div className="post-body">{post.content}</div>
           </div>
         </Card>
         <div className="button-container">
           <Button
             tag={Link}
-            to={`/post/${id}/comments`} 
+            to={`/post/${id}/comments`}
             className="button-color"
           >
             View Comments
           </Button>
-          
+
           <Button
             tag={Link}
-            to={`/post/${id}/comments/add`} 
+            to={`/post/${id}/comments/add`}
             className="button-color"
           >
             Add A Comment
           </Button>
 
-          <Button
-            tag={Link}
-            onClick={() => deletePostFromDB(post.id)}
-            className="button-color"
-          >
-            Delete Post
-          </Button>
+          {post.authorId === loggedInUser.id && (
+            <Button
+              onClick={() => deletePostFromDB(post.id)}
+              className="button-color"
+            >
+              Delete Post
+            </Button>
+          )}
         </div>
       </Container>
     </div>
