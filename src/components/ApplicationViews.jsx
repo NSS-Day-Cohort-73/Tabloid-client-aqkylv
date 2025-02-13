@@ -79,7 +79,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="post/:postId/comments"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <CommentsList />
+              <CommentsList loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
