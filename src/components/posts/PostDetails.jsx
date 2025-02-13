@@ -22,25 +22,25 @@ export default function PostDetails() {
     return `${month}/${day}/${year}`;
   };
 
-    return (
-      <div className="content-container">
-        <div className="full-width-image-background">
-          <Container>
-            <Card className="post-details-card">
-              {post.headerImage && (
-                <div className="header-image-container">
-                  <img
-                    src={post.headerImage}
-                    alt={post.title}
-                    className="header-image"
-                  />
-                </div>
-              )}
-            </Card>
-          </Container>
-        </div>
-
+  return (
+    <div className="content-container">
+      <div className="full-width-image-background">
         <Container>
+          <Card className="post-details-card">
+            {post.headerImage && (
+              <div className="header-image-container">
+                <img
+                  src={post.headerImage}
+                  alt={post.title}
+                  className="header-image"
+                />
+              </div>
+            )}
+          </Card>
+        </Container>
+      </div>
+  
+      <Container>
         <Card className="post-details-card">
           <div className="post-content">
             <h1 className="post-title text-center">{post.title.toUpperCase()}</h1>
@@ -54,12 +54,19 @@ export default function PostDetails() {
             </div>
           </div>
         </Card>
-        <div className="text-center mt-3">
+        <div className="button-container">
           <Button
             tag={Link}
             to={`/post/${id}/comments`} 
-            color="primary"
-            className="mb-4"
+            className="button-color"
+          >
+            View Comments
+          </Button>
+          
+          <Button
+            tag={Link}
+            to={`/post/${id}/comments/add`} 
+            className="button-color"
           >
             Add A Comment
           </Button>
