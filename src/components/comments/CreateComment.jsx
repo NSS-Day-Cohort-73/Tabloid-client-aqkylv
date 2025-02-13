@@ -5,11 +5,15 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import "./CommentStyles.css";
-import { addComment } from "../../managers/commentManager";
+import {
+  addComment,
+  getCommentById,
+  updateComment,
+} from "../../managers/commentManager";
 import EditorMenuBar from "../EditorMenuBar";
 
 function CreateComment({ loggedInUser }) {
-  const { postId } = useParams();
+  const { postId, commentId } = useParams();
   const navigate = useNavigate();
 
   const [comment, setComment] = useState({
@@ -19,14 +23,60 @@ function CreateComment({ loggedInUser }) {
     content: "",
   });
 
-  useEffect(() => {
-    setComment((prevComment) => ({
-      ...prevComment,
-      authorId: loggedInUser?.id || "",
-      postId: postId || "",
-    }));
-  }, [postId, loggedInUser]);
+  // Initialize Tiptap Editor
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: "Type your comment here...",
+        showOnlyWhenEditable: true,
+      }),
+    ],
+    content: "<p></p>", // Must have something so the placeholder works
+    autofocus: true,
+    editable: true,
+    onUpdate: ({ editor }) => {
+      // Update our state ONLY as user types, no forced re-setting
+      setComment((prevComment) => ({
+        ...prevComment,
+        content: editor.getHTML(),
+      }));
+    },
+  });
 
+  // Single useEffect to fetch or clear comment
+  useEffect(() => {
+    const fetchCommentData = async () => {
+      // Editor might not be ready on first render
+      if (!editor) return;
+
+      if (commentId) {
+        // If editing, fetch existing comment
+        const fetchedComment = await getCommentById(commentId);
+        setComment({
+          authorId: loggedInUser?.id || "",
+          postId: postId || "",
+          subject: fetchedComment.subject || "",
+          content: fetchedComment.content || "",
+        });
+        // Set editor content once after fetch
+        editor.commands.setContent(fetchedComment.content || "");
+      } else {
+        // If creating a new one, clear everything
+        setComment({
+          authorId: loggedInUser?.id || "",
+          postId: postId || "",
+          subject: "",
+          content: "",
+        });
+        editor.commands.clearContent();
+      }
+    };
+
+    fetchCommentData();
+  }, [editor, commentId, postId, loggedInUser]);
+
+  // Handle form field changes (for subject, etc.)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setComment((prevComment) => ({
@@ -35,39 +85,32 @@ function CreateComment({ loggedInUser }) {
     }));
   };
 
-  const handleEditorChange = ({ editor }) => {
-    setComment((prevComment) => ({
-      ...prevComment,
-      content: editor.getHTML(), // Stores content as HTML
-    }));
-  };
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Placeholder.configure({
-        placeholder: "Type your comment here...", // Placeholder text
-        showOnlyWhenEditable: true, // Makes sure it disappears only when typing
-      }),
-    ],
-    content: "<p></p>", // Ensures placeholder works (empty paragraph)
-    autofocus: true, // Focuses editor automatically
-    editable: true, // Ensures it's not read-only
-    onUpdate: handleEditorChange,
-  });
-
+  // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Quick validation: check for falsy values
     const hasFalsyValue = Object.values(comment).some((value) => !value);
     if (hasFalsyValue) return;
-    addComment(comment).then(() => {
-      navigate(`/post/${postId}`);
-    });
+
+    if (commentId) {
+      // Update existing
+      const updatedComment = { ...comment, id: commentId };
+      updateComment(updatedComment)
+        .then(() => navigate(`/post/${postId}`))
+        .catch((err) => console.error(err));
+    } else {
+      // Create new
+      addComment(comment)
+        .then(() => navigate(`/post/${postId}`))
+        .catch((err) => console.error(err));
+    }
   };
 
   return (
     <Container className="mt-4">
-      <h4>Post a Comment</h4>
+      <h4>{commentId ? "Update Comment" : "Post a Comment"}</h4>
+      {/* Use Form's onSubmit rather than button's onClick */}
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <Label for="subject">Subject</Label>
@@ -91,7 +134,7 @@ function CreateComment({ loggedInUser }) {
         </FormGroup>
 
         <Button color="primary" type="submit">
-          Post Comment
+          {commentId ? "Update Comment" : "Post Comment"}
         </Button>
       </Form>
     </Container>
