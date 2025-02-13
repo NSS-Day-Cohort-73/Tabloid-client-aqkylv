@@ -4,7 +4,8 @@ import {
   CardBody,
   CardTitle,
   CardText,
-  Container
+  Container,
+  Button
 } from "reactstrap";
 import { getAllPosts } from "../../managers/postManager";
 import { Link } from "react-router-dom";
@@ -51,6 +52,7 @@ export default function PostList() {
           </CardBody>
         </Card>
       ))}
+      <Button href="/createpost"> NEW POST </Button>
     </Container>
   );
 }

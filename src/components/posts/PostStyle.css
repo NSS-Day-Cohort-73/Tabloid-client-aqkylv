@@ -1,23 +1,23 @@
+.content-container {
+  /* Add any specific container styles if needed */
+}
 
 .full-width-image-background {
   width: 100%;
-  background-color: #f7f0f0; 
-  
+  background-color: #f7f0f0;
 }
 
 .header-image-container {
   justify-content: center;
- 
 }
 
 .header-image {
-  width: 70%; 
-  height: 400px; 
+  width: 70%;
+  height: 400px;
   object-fit: cover;
 }
 
 .post-details-card {
- 
   border: none;
   box-shadow: none;
   text-align: center;
@@ -26,4 +26,22 @@
 .post-author {
   padding: 2rem;
   text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.button-color {
+  background-color: var(--red) !important;
+  border-color: var(--red) !important;
+}
+
+.button-color:hover {
+  background-color: var(--black) !important; 
+  border-color: var(--black) !important;
 }

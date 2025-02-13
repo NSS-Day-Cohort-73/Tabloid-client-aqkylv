@@ -17,3 +17,12 @@ export const createPost = (post) => {
 export const getById = (id) => {
   return fetch(`${_apiUrl}/${id}`).then((res) => res.json());
 }
+
+export const deletePost = (id) => {
+  return fetch(`${_apiUrl}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  });
+};
