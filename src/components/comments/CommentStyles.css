@@ -22,26 +22,3 @@
   pointer-events: none; /* Prevents interaction with placeholder */
 }
 
-.delete-p {
-  color: var(--red);
-  cursor: pointer;
-  text-decoration: underline;
-  opacity: 0.8;
-}
-
-.delete-p:hover {
-  font-weight: bold;
-  opacity: 1;
-}
-
-.edit-p {
-  color: var(--green);
-  cursor: pointer;
-  text-decoration: underline;
-  opacity: 0.8;
-}
-
-.edit-p:hover {
-  font-weight: bold;
-  opacity: 1;
-}
