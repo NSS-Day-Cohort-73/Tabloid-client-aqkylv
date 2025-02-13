@@ -19,6 +19,12 @@ export default function UserProfileDetails() {
       <img src={userProfile.imageLocation} alt={userProfile.firstName} />
       <h3>{userProfile.fullName}</h3>
       <p>Username: {userProfile.userName}</p>
+      <p>Email: {userProfile.email} </p>
+      <p>
+        Date Created:{" "}
+        {new Date(Date.parse(userProfile.createDateTime)).toLocaleString()}
+      </p>
+      <p>User Type: {userProfile.roles}</p>
     </>
   );
 }

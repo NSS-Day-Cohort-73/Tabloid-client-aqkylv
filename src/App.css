@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+.editor-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.editor-container {
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 5px;
+  min-height: 150px;
+  background-color: white;
+  cursor: text;
+}
+
+.ProseMirror {
+  min-height: 100px;
+  padding: 10px;
+}
