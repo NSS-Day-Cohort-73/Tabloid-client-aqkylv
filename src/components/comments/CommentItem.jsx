@@ -45,15 +45,18 @@ function CommentItem({ loggedInUser, comment, getAndSet }) {
           className="fw-bold p-2"
           style={{ backgroundColor: "var(--green)" }}
         >
-          <Col xs={8} className="text-start">
+          <Col xs={6} className="text-start">
             {comment.subject}
           </Col>
-          <Col xs={4} className="text-end">
+          <Col xs={6} className="text-end">
             Posted on {commentDate} by {comment.author.fullName}
           </Col>
         </Row>
         <Row>
-          <Col>{comment.content}</Col>
+          <Col>
+          {/* render in dangerouslySetInnerHTML to render HTML content */}
+            <div dangerouslySetInnerHTML={{ __html: comment.content }} /> 
+          </Col>
         </Row>
       </Col>
     </Row>
