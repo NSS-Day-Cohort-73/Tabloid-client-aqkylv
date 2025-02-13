@@ -9,6 +9,7 @@ import CategoryList from "./categories/CategoryList";
 import PostList from "./posts/PostList";
 import CreateAPost from "./posts/CreateAPost";
 import CommentsList from "./comments/CommentsList";
+import PostDetails from "./posts/PostDetails";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -42,6 +43,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           }
         />
         <Route
+          path="post/:id"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <PostDetails />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
           path="createpost"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
@@ -66,7 +75,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           }
         />
         <Route
-          path="posts/:postId/comments"
+          path="post/:postId/comments"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <CommentsList />

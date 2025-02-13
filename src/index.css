@@ -13,7 +13,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.navbar {
+  background-color: var(--grey);
+  margin-bottom: 1rem;
+}
+
+.logo {
+  color: white !important;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-route {
+  color: white !important;
+}
+body {
+  padding-top: 60px;  /* This will create space below the navbar */
 }

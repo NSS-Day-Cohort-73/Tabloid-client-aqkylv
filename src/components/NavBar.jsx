@@ -19,8 +19,8 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
 
   return (
     <div>
-      <Navbar color="light" light fixed="true" expand="lg">
-        <NavbarBrand className="mr-auto" tag={RRNavLink} to="/">
+      <Navbar className="navbar" fixed="top" expand="lg">
+        <NavbarBrand className="logo" tag={RRNavLink} to="/">
           ✍️ Tabloid
         </NavbarBrand>
         {loggedInUser ? (
@@ -29,38 +29,38 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
             <Collapse isOpen={open} navbar>
               <Nav navbar>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/">
+                  <NavLink className="navbar-route" tag={RRNavLink} to="/">
                     Home
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/explore">
+                  <NavLink className="navbar-route" tag={RRNavLink} to="/explore">
                     Explore
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/subscribed-posts">
+                  <NavLink className="navbar-route" tag={RRNavLink} to="/subscribed-posts">
                     Subscribed Posts
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/my-posts">
+                  <NavLink className="navbar-route" tag={RRNavLink} to="/my-posts">
                     My Posts
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/categories">
+                  <NavLink className="navbar-route" tag={RRNavLink} to="/categories">
                     Categories
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/tags">
+                  <NavLink className="navbar-route" tag={RRNavLink} to="/tags">
                     Tags
                   </NavLink>
                 </NavItem>
                 {loggedInUser.roles.includes("Admin") && (
                   <NavItem>
-                    <NavLink tag={RRNavLink} to="/userprofiles">
+                    <NavLink className="navbar-route" tag={RRNavLink} to="/userprofiles">
                       User Profiles
                     </NavLink>
                   </NavItem>
