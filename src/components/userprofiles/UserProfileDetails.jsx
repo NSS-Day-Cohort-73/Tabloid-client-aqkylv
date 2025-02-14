@@ -24,7 +24,12 @@ export default function UserProfileDetails() {
         Date Created:{" "}
         {new Date(Date.parse(userProfile.createDateTime)).toLocaleString()}
       </p>
-      <p>User Type: {userProfile.roles}</p>
+      <p>
+        User Type:{" "}
+        {userProfile.roles && userProfile.roles.length > 0
+          ? userProfile.roles[0]
+          : "Author"}
+      </p>
     </>
   );
 }
