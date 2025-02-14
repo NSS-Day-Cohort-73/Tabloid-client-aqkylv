@@ -13,6 +13,7 @@ import PostDetails from "./posts/PostDetails";
 import CreateComment from "./comments/CreateComment";
 import TagList from "./tags/TagList";
 import MyPosts from "./posts/MyPosts";
+import UserProfilePosts from "./posts/UserProfilePosts";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -74,6 +75,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
                <MyPosts loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="userprofile/:id/posts"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+               <UserProfilePosts loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />

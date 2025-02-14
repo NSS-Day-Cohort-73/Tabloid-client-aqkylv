@@ -50,3 +50,7 @@ export const reactivateUser = (userId) => {
     })
     .catch((error) => console.error("Error reactivating user:", error));
 };
+
+export const getUserProfilePosts = (id) => {
+  return fetch(`${_apiUrl}/${id}/posts`).then((res) => res.json());
+};
