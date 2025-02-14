@@ -6,21 +6,16 @@ import {
   CardText,
   Container
 } from "reactstrap";
-
 import { Link, useParams } from "react-router-dom";
 import { getUserProfilePosts } from "../../managers/userProfileManager";
 
 export default function UserProfilePosts() {
   const [posts, setPosts] = useState([]);
-   const { id } = useParams();
-
-  function getAndSetPosts() {
-    getUserProfilePosts(id).then(setPosts);
-  }
+  const { id } = useParams();
 
   useEffect(() => {
-    getAndSetPosts();
-  }, []);
+    getUserProfilePosts(id).then(setPosts);
+  }, [id]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -29,6 +24,13 @@ export default function UserProfilePosts() {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
+
+  if (!posts.length) {
+    return (
+    <Container className="btn delete-btn text-center d-flex justify-content-center">
+        This user currently has no posts to view
+    </Container>)
+  }
 
   return (
     <Container>
@@ -53,7 +55,6 @@ export default function UserProfilePosts() {
           </CardBody>
         </Card>
       ))}
-      
     </Container>
-  )
+  );
 }
