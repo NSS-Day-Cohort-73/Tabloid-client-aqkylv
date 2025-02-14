@@ -6,7 +6,6 @@ import {
 } from "../../managers/userProfileManager";
 import { tryGetLoggedInUser } from "../../managers/authManager";
 import { Link, useParams } from "react-router-dom";
-import { getProfile } from "../../managers/userProfileManager";
 import { Button } from "reactstrap";
 
 export default function UserProfileDetails() {
