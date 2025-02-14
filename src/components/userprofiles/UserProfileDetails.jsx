@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getProfile } from "../../managers/userProfileManager";
+import { Button } from "reactstrap";
 
 export default function UserProfileDetails() {
   const [userProfile, setUserProfile] = useState();
@@ -30,6 +31,7 @@ export default function UserProfileDetails() {
           ? userProfile.roles[0]
           : "Author"}
       </p>
+      <Link to={`/userprofile/${userProfile.id}/posts`} className="btn delete-btn"> View {userProfile.userName}'s' Posts</Link>
     </>
   );
 }
