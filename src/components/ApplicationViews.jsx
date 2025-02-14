@@ -12,6 +12,7 @@ import CommentsList from "./comments/CommentsList";
 import PostDetails from "./posts/PostDetails";
 import CreateComment from "./comments/CreateComment";
 import TagList from "./tags/TagList";
+import MyPosts from "./posts/MyPosts";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -72,7 +73,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="my-posts"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>My Posts</p>
+               <MyPosts loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />

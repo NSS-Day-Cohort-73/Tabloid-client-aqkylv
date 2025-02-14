@@ -3,6 +3,10 @@ const _apiUrl = "/api/post";
 export const getAllPosts = () => {
     return fetch(_apiUrl).then((res) => res.json());
 };
+
+export const getMyPosts = () => {
+  return fetch(`${_apiUrl}/my-posts`).then((res) => res.json());
+};
   
 export const createPost = (post) => {
   return fetch(_apiUrl, {
