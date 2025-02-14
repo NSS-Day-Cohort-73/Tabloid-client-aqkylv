@@ -1,0 +1,21 @@
+.reaction-bar {
+  justify-content: flex-start;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.reaction-item {
+  border-radius: 25%;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  padding: 3px;
+  transition: transform 0.2s ease-in-out;
+  transform-origin: center;
+}
+.reaction-item:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.reaction-item span {
+  display: inline-block;
+}

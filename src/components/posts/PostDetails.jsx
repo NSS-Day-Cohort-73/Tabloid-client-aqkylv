@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, Container } from "reactstrap";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { deletePost, getById } from "../../managers/postManager";
+import ReactionBar from "../reactions/ReactionBar";
 
 export default function PostDetails({ loggedInUser }) {
   const [post, setPost] = useState(null);
@@ -64,6 +65,7 @@ export default function PostDetails({ loggedInUser }) {
             <div className="post-body">{post.content}</div>
           </div>
         </Card>
+        <ReactionBar postId={post.id} loggedInUser={loggedInUser} />
         <div className="button-container">
           <Button
             tag={Link}
