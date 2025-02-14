@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import {
   getProfile,
   promoteUser,
   demoteUser,
 } from "../../managers/userProfileManager";
 import { tryGetLoggedInUser } from "../../managers/authManager";
+import { Link, useParams } from "react-router-dom";
+import { getProfile } from "../../managers/userProfileManager";
+import { Button } from "reactstrap";
 
 export default function UserProfileDetails() {
   const [userProfile, setUserProfile] = useState(null);
@@ -85,6 +87,13 @@ export default function UserProfileDetails() {
           )}
         </div>
       )}
+      <Link
+        to={`/userprofile/${userProfile.id}/posts`}
+        className="btn delete-btn"
+      >
+        {" "}
+        View {userProfile.userName}'s' Posts
+      </Link>
     </>
   );
 }

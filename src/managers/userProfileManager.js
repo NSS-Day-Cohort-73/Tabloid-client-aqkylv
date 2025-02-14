@@ -74,3 +74,7 @@ export const demoteUser = async (id) => {
     throw new Error(`Failed to demote user: ${response.statusText}`);
   }
 };
+
+export const getUserProfilePosts = (id) => {
+  return fetch(`${_apiUrl}/${id}/posts`).then((res) => res.json());
+};
