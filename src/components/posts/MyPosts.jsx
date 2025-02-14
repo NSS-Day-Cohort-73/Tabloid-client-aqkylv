@@ -4,17 +4,16 @@ import {
   CardBody,
   CardTitle,
   CardText,
-  Container,
-  Button
+  Container
 } from "reactstrap";
-import { getAllPosts } from "../../managers/postManager";
+import { getMyPosts } from "../../managers/postManager";
 import { Link } from "react-router-dom";
 
 export default function MyPosts() {
   const [posts, setPosts] = useState([]);
 
   function getAndSetPosts() {
-    getAllPosts().then(setPosts);
+    getMyPosts().then(setPosts);
   }
 
   useEffect(() => {
@@ -31,31 +30,28 @@ export default function MyPosts() {
 
   return (
     <Container>
-      {post.authorId === loggedInUser.id && (
-        {
-          posts.map((p) => (
-            <Card
-              key={p.id}
-              outline
-              color="success"
-              style={{ marginBottom: "10px" }}
-            >
-              <CardBody>
-                <CardTitle tag="h5">
-                  <Link to={`/post/${p.id}`} style={{ textDecoration: 'none' }}>{p.title}</Link>
-                </CardTitle>
-                <CardText tag="div">
-                  Author: {p.author.fullName}
-                  <br />
-                  Published On: {formatDate(p.publishingDate)}
-                  <br />
-                  Category: {p.category.name}
-                </CardText>
-              </CardBody>
-            </Card>
-          ))
-        })}
-      <Button href="/createpost"> NEW POST </Button>
+      {posts.map((p) => (
+        <Card
+          key={p.id}
+          outline
+          color="success"
+          style={{ marginBottom: "10px" }}
+        >
+          <CardBody>
+            <CardTitle tag="h5">
+              <Link to={`/post/${p.id}`} style={{ textDecoration: 'none' }}>{p.title}</Link>
+            </CardTitle>
+            <CardText tag="div">
+              Author: {p.author.fullName}
+              <br />
+              Published On: {formatDate(p.publishingDate)}
+              <br />
+              Category: {p.category.name}
+            </CardText>
+          </CardBody>
+        </Card>
+      ))}
+      
     </Container>
-  );
+  )
 }
