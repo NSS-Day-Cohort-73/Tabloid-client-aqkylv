@@ -4,26 +4,18 @@ import {
   CardBody,
   CardTitle,
   CardText,
-  Container,
-  Button
+  Container
 } from "reactstrap";
-import { getAllPosts } from "../../managers/postManager";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { getUserProfilePosts } from "../../managers/userProfileManager";
 
-export default function PostList() {
+export default function UserProfilePosts() {
   const [posts, setPosts] = useState([]);
-
-  function getAndSetPosts() {
-    getAllPosts().then(setPosts);
-  }
+  const { id } = useParams();
 
   useEffect(() => {
-    getAndSetPosts();
-  }, []);
-
-  if (!posts.length) {
-    return <Container>Loading...</Container>;
-  }
+    getUserProfilePosts(id).then(setPosts);
+  }, [id]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -32,6 +24,13 @@ export default function PostList() {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   };
+
+  if (!posts.length) {
+    return (
+    <Container className="btn delete-btn text-center d-flex justify-content-center">
+        This user currently has no posts to view
+    </Container>)
+  }
 
   return (
     <Container>
@@ -44,7 +43,7 @@ export default function PostList() {
         >
           <CardBody>
             <CardTitle tag="h5">
-                      <Link to={`/post/${p.id}`} style={{ textDecoration: 'none' }}>{p.title}</Link>
+              <Link to={`/post/${p.id}`} style={{ textDecoration: 'none' }}>{p.title}</Link>
             </CardTitle>
             <CardText tag="div">
               Author: {p.author.fullName}
@@ -56,7 +55,6 @@ export default function PostList() {
           </CardBody>
         </Card>
       ))}
-      <Button href="/createpost"> NEW POST </Button>
     </Container>
   );
 }
