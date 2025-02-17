@@ -8,6 +8,9 @@ export const getMyPosts = () => {
   return fetch(`${_apiUrl}/my-posts`).then((res) => res.json());
 };
 
+export const getPostByCategoryId = (id) => {
+  return fetch(`${_apiUrl}/explore/category/${id}`).then((res) => res.json());
+};
   
 export const createPost = (post) => {
   return fetch(_apiUrl, {
@@ -20,7 +23,7 @@ export const createPost = (post) => {
 };
 
 export const updatePost = (id, post) => {
-  return fetch(`/api/post/${id}`, {
+  return fetch(`${_apiUrl}/${id}`, {
       method: "PUT",
       headers: {
           "Content-Type": "application/json"
