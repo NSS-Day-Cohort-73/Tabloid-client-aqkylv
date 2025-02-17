@@ -15,6 +15,7 @@ import TagList from "./tags/TagList";
 import MyPosts from "./posts/MyPosts";
 import UserProfilePosts from "./posts/UserProfilePosts";
 import Example from "./Example";
+import EditAPost from "./posts/EditAPost";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -60,6 +61,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <CreateAPost loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="createpost/:id"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <EditAPost loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />

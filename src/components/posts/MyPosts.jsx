@@ -4,17 +4,23 @@ import {
   CardBody,
   CardTitle,
   CardText,
-  Container
+  Container,
+  Button
 } from "reactstrap";
-import { getMyPosts } from "../../managers/postManager";
-import { Link } from "react-router-dom";
+import { getById, getMyPosts } from "../../managers/postManager";
+import { Link, useParams } from "react-router-dom";
 
 export default function MyPosts() {
   const [posts, setPosts] = useState([]);
 
+  const { id } = useParams();
+
   function getAndSetPosts() {
     getMyPosts().then(setPosts);
   }
+
+  
+
 
   useEffect(() => {
     getAndSetPosts();
@@ -48,6 +54,7 @@ export default function MyPosts() {
               <br />
               Category: {p.category.name}
             </CardText>
+            <Link to={`/createpost/${p.id}`} className="btn btn-primary">Edit Post</Link>
           </CardBody>
         </Card>
       ))}

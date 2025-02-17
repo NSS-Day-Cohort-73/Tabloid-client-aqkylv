@@ -65,9 +65,18 @@ export default function PostDetails({ loggedInUser }) {
             </div>
             <PostTags post={post} />
             <div
-              className="post-body"
+              className="post-body text-center"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
+             {post.authorId === loggedInUser.id && (
+            <Button
+              onClick={() => deletePostFromDB(post.id)}
+               className="float-end"
+               color="danger"
+            >
+              Delete Post
+            </Button>
+          )}
           </div>
         </Card>
         <ReactionBar postId={post.id} loggedInUser={loggedInUser} />
@@ -75,7 +84,8 @@ export default function PostDetails({ loggedInUser }) {
           <Button
             tag={Link}
             to={`/post/${id}/comments`}
-            className="button-color"
+            className="float-start"
+            color="success"
           >
             View Comments
           </Button>
@@ -83,19 +93,13 @@ export default function PostDetails({ loggedInUser }) {
           <Button
             tag={Link}
             to={`/post/${id}/comments/add`}
-            className="button-color"
+            className="float-end"
+            color="primary"
           >
             Add A Comment
           </Button>
 
-          {post.authorId === loggedInUser.id && (
-            <Button
-              onClick={() => deletePostFromDB(post.id)}
-              className="button-color"
-            >
-              Delete Post
-            </Button>
-          )}
+         
         </div>
       </Container>
     </div>
