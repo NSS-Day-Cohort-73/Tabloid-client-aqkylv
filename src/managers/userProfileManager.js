@@ -78,3 +78,19 @@ export const demoteUser = async (id) => {
 export const getUserProfilePosts = (id) => {
   return fetch(`${_apiUrl}/${id}/posts`).then((res) => res.json());
 };
+
+export async function updateUserProfileImage(userId, imageUrl) {
+  const response = await fetch(`/api/UserProfile/${userId}/image`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ imageLocation: imageUrl }),
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to update user profile image. Status: ${response.status}`
+    );
+  }
+}
