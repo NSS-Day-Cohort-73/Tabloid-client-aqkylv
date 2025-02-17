@@ -19,8 +19,22 @@ export const createPost = (post) => {
   }).then((res) => res.json());
 };
 
+export const updatePost = (id, post) => {
+  return fetch(`/api/post/${id}`, {
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(post)
+  });
+};
+
 export const getById = (id) => {
   return fetch(`${_apiUrl}/${id}`).then((res) => res.json());
+}
+
+export const getByIdToBeEdited = (id) => {
+  return fetch(`${_apiUrl}/createpost/${id}`).then((res) => res.json());
 }
 
 export const deletePost = (id) => {
