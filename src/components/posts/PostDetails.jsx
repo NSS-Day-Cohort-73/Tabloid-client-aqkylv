@@ -62,7 +62,10 @@ export default function PostDetails({ loggedInUser }) {
               <span className="mx-2">•</span>
               <span>{formatDate(post.publishingDate)}</span>
             </div>
-            <div className="post-body">{post.content}</div>
+            <div
+              className="post-body"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
           </div>
         </Card>
         <ReactionBar postId={post.id} loggedInUser={loggedInUser} />
