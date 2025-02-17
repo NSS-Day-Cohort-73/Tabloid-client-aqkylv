@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, Input, Label } from "reactstrap";
+import { Button, Container, Form, Input, Label } from "reactstrap";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
 import { getAllCategories } from "../../managers/categoryManager";
 import { createPost } from "../../managers/postManager";
-
 import ImageUploader from "../imageUploader";
+import EditorMenuBar from "../EditorMenuBar";
 
 export default function CreateAPost({ loggedInUser }) {
   const navigate = useNavigate();
@@ -24,6 +27,25 @@ export default function CreateAPost({ loggedInUser }) {
     getAllCategories().then(setCategories);
   }, []);
 
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: "Write your post here...",
+        showOnlyWhenEditable: true,
+      }),
+    ],
+    content: "<p></p>",
+    autofocus: true,
+    editable: true,
+    onUpdate: ({ editor }) => {
+      setFormData((prevState) => ({
+        ...prevState,
+        content: editor.getHTML(),
+      }));
+    },
+  });
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -32,7 +54,6 @@ export default function CreateAPost({ loggedInUser }) {
     }));
   };
 
-  // A function passed to ImageUploader so it can give us the URL
   const handleHeaderImage = (url) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -43,7 +64,6 @@ export default function CreateAPost({ loggedInUser }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Now we have headerImage in our formData when we create the post
     createPost(formData)
       .then(() => {
         alert("Posted!");
@@ -53,8 +73,8 @@ export default function CreateAPost({ loggedInUser }) {
   };
 
   return (
-    <div className="post-form">
-      <h2>Create A New Post</h2>
+    <Container className="post-form">
+      <h2 className="text-center">Create A New Post</h2>
       <Form onSubmit={handleSubmit}>
         <div className="form-field">
           <Label>Title</Label>
@@ -97,32 +117,33 @@ export default function CreateAPost({ loggedInUser }) {
 
         <div className="form-field">
           <Label>Publishing Date</Label>
-          <Input type="text" value={new Date().toLocaleDateString()} readOnly />
+          <Input
+            className="bg-light"
+            type="text"
+            value={new Date().toLocaleDateString()}
+            readOnly
+          />
         </div>
 
         <div className="form-field">
           <Label>Header Image</Label>
           <ImageUploader type="header" setImageURL={handleHeaderImage} />
-          {/* This replaces <Input type="file" name="headerImage" /> */}
         </div>
 
         <div className="form-field">
           <Label>Body</Label>
-          <Input
-            type="textarea"
-            name="content"
-            value={formData.content}
-            onChange={handleInputChange}
-            required
-          />
+          <div className="editor-container">
+            <EditorMenuBar editor={editor} />
+            <EditorContent editor={editor} />
+          </div>
         </div>
 
-        <div className="button-container">
+        <div className="button-container mt-2 text-end">
           <Button color="success" type="submit">
             Save Post
           </Button>
         </div>
       </Form>
-    </div>
+    </Container>
   );
 }
