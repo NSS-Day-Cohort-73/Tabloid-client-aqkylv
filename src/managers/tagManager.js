@@ -57,3 +57,55 @@ export const updateTag = async (tag) => {
     body: JSON.stringify(tag),
   });
 };
+
+// Get all tags for a specific post
+export const getAllPostTags = async (postId) => {
+  const res = await fetch(`/api/PostTag?postId=${postId}`);
+
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error(`Failed to fetch tags for post: ${res.status}`);
+  }
+};
+
+// Add a tag to a specific post
+export const addPostTags = async (postId, tagId) => {
+  const res = await fetch(`/api/PostTag`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ postId, tagId }),
+  });
+
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error(`Failed to add tag to post: ${res.status}`);
+  }
+};
+
+// Delete a tag from a specific post
+export const deletePostTag = async (postId, tagId) => {
+  await fetch(`/api/PostTag?postId=${postId}&tagId=${tagId}`, {
+    method: "DELETE",
+  });
+};
+
+// Update tags for a specific post
+export const updatePostTags = async (postId, postTags) => {
+    const res = await fetch(`/api/PostTag?postId=${postId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postTags),
+    });
+
+    if (res.ok) {
+        return res.json();
+    } else {
+        throw new Error(`Failed to update tags for post: ${res.status}`);
+    }
+};

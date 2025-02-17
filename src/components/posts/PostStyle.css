@@ -38,6 +38,13 @@
 }
 
 .button-color:hover {
-  background-color: var(--black) !important; 
+  background-color: var(--black) !important;
   border-color: var(--black) !important;
+}
+
+.post-tag {
+  background-color: var(--green);
+  color: white;
+  border: none;
+  border-radius: 10px;
 }

@@ -3,6 +3,7 @@ import { Button, Card, Container } from "reactstrap";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { deletePost, getById } from "../../managers/postManager";
 import ReactionBar from "../reactions/ReactionBar";
+import PostTags from "./PostTags";
 
 export default function PostDetails({ loggedInUser }) {
   const [post, setPost] = useState(null);
@@ -62,6 +63,7 @@ export default function PostDetails({ loggedInUser }) {
               <span className="mx-2">•</span>
               <span>{formatDate(post.publishingDate)}</span>
             </div>
+            <PostTags post={post} />
             <div
               className="post-body"
               dangerouslySetInnerHTML={{ __html: post.content }}
@@ -69,7 +71,7 @@ export default function PostDetails({ loggedInUser }) {
           </div>
         </Card>
         <ReactionBar postId={post.id} loggedInUser={loggedInUser} />
-        <div className="button-container">
+        <div className="button-container d-flex justify-content-around my-3">
           <Button
             tag={Link}
             to={`/post/${id}/comments`}
