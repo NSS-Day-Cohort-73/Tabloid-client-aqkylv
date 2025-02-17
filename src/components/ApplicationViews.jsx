@@ -13,6 +13,8 @@ import PostDetails from "./posts/PostDetails";
 import CreateComment from "./comments/CreateComment";
 import TagList from "./tags/TagList";
 import MyPosts from "./posts/MyPosts";
+import UserProfilePosts from "./posts/UserProfilePosts";
+import Example from "./Example";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -41,7 +43,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="explore"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <PostList  />
+              <PostList />
             </AuthorizedRoute>
           }
         />
@@ -73,7 +75,15 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="my-posts"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-               <MyPosts loggedInUser={loggedInUser} />
+              <MyPosts loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="userprofile/:id/posts"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <UserProfilePosts loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
@@ -119,6 +129,17 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
         </Route>
+
+
+        {/* DELETE LATER */}
+        <Route
+          path="example"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <Example />
+            </AuthorizedRoute>
+          }
+        />
         <Route
           path="categories"
           element={

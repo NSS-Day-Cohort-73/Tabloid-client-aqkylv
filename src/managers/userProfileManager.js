@@ -19,34 +19,78 @@ export const deactivateUser = (userId) => {
     },
   })
     .then((response) => {
-      console.log("Deactivate response:", response); // Log the response for debugging
       if (!response.ok) {
-        throw new Error("Failed to deactivate user");
+        throw new Error(`Failed to deactivate user: ${response.statusText}`);
       }
-      // Since the backend sends a 204 No Content response, we don't call response.json()
-      return response; // Simply return the response, no need to parse it
+      return response;
     })
     .then(() => {
       console.log("User deactivated successfully.");
     })
     .catch((error) => {
-      console.error("Error deactivating user:", error); // Log the error
+      console.error("Error deactivating user:", error);
     });
 };
 
 // Reactivate a user account by ID
 export const reactivateUser = (userId) => {
   return fetch(`${_apiUrl}/reactivate/${userId}`, {
-    method: "POST", // POST request as per your backend setup
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Failed to reactivate user");
+        throw new Error(`Failed to reactivate user: ${response.statusText}`);
       }
-      return response; // No content is returned, so we return the response itself
+      return response;
     })
     .catch((error) => console.error("Error reactivating user:", error));
 };
+
+export const promoteUser = async (id) => {
+  const response = await fetch(`/api/userprofile/promote/${id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to promote user: ${response.statusText}`);
+  }
+};
+
+export const demoteUser = async (id) => {
+  const response = await fetch(`/api/userprofile/demote/${id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to demote user: ${response.statusText}`);
+  }
+};
+
+export const getUserProfilePosts = (id) => {
+  return fetch(`${_apiUrl}/${id}/posts`).then((res) => res.json());
+};
+
+export async function updateUserProfileImage(userId, imageUrl) {
+  const response = await fetch(`/api/UserProfile/${userId}/image`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ imageLocation: imageUrl }),
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to update user profile image. Status: ${response.status}`
+    );
+  }
+}
