@@ -1,15 +1,9 @@
-// Get all tags (or filter by tagId if provided)
-export const getAllTags = async (postId = null) => {
-  // Construct the URL with optional postId query parameter
-  const url = postId ? `/api/tag?postId=${postId}` : "/api/tag";
-
-  const res = await fetch(url);
-
-  if (res.ok) {
-    return res.json();
-  } else {
-    throw new Error(`Failed to fetch tags: ${res.status}`);
+export const getAllTags = async () => {
+  const response = await fetch("http://localhost:5173/api/Tag");
+  if (!response.ok) {
+    throw new Error("Failed to fetch all tags");
   }
+  return await response.json();
 };
 
 // Get a single tag
@@ -95,17 +89,15 @@ export const deletePostTag = async (postId, tagId) => {
 
 // Update tags for a specific post
 export const updatePostTags = async (postId, postTags) => {
-    const res = await fetch(`/api/PostTag?postId=${postId}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postTags),
-    });
+  const res = await fetch(`/api/PostTag?postId=${postId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(postTags),
+  });
 
-    if (res.ok) {
-        return res.json();
-    } else {
-        throw new Error(`Failed to update tags for post: ${res.status}`);
-    }
+  if (!res.ok){
+    throw new Error(`Failed to update tags for post: ${res.status}`);
+  }
 };

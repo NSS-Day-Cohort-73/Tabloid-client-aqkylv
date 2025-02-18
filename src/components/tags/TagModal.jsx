@@ -1,40 +1,67 @@
-import React, { useState } from "react";
-import { Modal, Button, Form } from "reactstrap";
+import React from "react";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+} from "reactstrap";
 
-const TagModal = ({ show, handleClose, handleSave }) => {
-  const [tagName, setTagName] = useState("");
+const TagModal = ({
+  isOpen,
+  toggle,
+  postTags,
+  setPostTags,
+  saveTags,
+  allTags,
+  postId
+}) => {
+  const handleCheckboxChange = (tagId) => {
+    if (postTags.some((pt) => pt.tag.id === tagId)) {
+      setPostTags(postTags.filter((pt) => pt.tag.id !== tagId));
+    } else {
+      const foundTag = allTags.find((t) => t.id === tagId);
+      if (foundTag) {
+        setPostTags([...postTags, { tag: foundTag, postId: postId, tagId: tagId }]);
+      }
+    }
+  };
 
   const onSave = () => {
-    handleSave(tagName);
-    setTagName("");
+    saveTags();
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Add New Tag</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+    <Modal isOpen={isOpen} toggle={toggle}>
+      <ModalHeader toggle={toggle}>Add New Tag</ModalHeader>
+      <ModalBody>
         <Form>
-          <Form.Group controlId="formTagName">
-            <Form.Label>Tag Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter tag name"
-              value={tagName}
-              onChange={(e) => setTagName(e.target.value)}
-            />
-          </Form.Group>
+          {allTags.map((tag) => (
+            <FormGroup check key={tag.id}>
+              <Label check>
+                <Input
+                  type="checkbox"
+                  checked={postTags.some((pt) => pt.tag.id === tag.id)}
+                  onChange={() => handleCheckboxChange(tag.id)}
+                />
+                {tag.name}
+              </Label>
+            </FormGroup>
+          ))}
         </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+      </ModalBody>
+      <ModalFooter>
+        <Button color="secondary" onClick={toggle}>
           Close
         </Button>
-        <Button variant="primary" onClick={onSave}>
+        <Button color="primary" onClick={onSave}>
           Save Changes
         </Button>
-      </Modal.Footer>
+      </ModalFooter>
     </Modal>
   );
 };

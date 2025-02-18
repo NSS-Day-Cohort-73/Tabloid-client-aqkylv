@@ -1,21 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Button } from "reactstrap";
-import { getAllPostTags, updatePostTags } from "../../managers/tagManager";
-import TagModal from "../tags/TagModal";
+import {
+  getAllPostTags,
+  updatePostTags,
+  getAllTags,
+} from "../../managers/tagManager"; // Import the correct function
+
 import "./PostStyle.css";
+import TagModal from "../tags/TagModal";
 
 const PostTags = ({ post }) => {
   const [postTags, setPostTags] = useState([]);
+  const [allTags, setAllTags] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
 
   const getAndSetPostTags = async () => {
-    const response = await getAllPostTags(post.id);
-    setPostTags(response);
+    const fetchedPostTags = await getAllPostTags(post.id);
+
+    setPostTags(fetchedPostTags);
+  };
+
+  const getAndSetAllTags = async () => {
+    const fetchedTags = await getAllTags();
+    setAllTags(fetchedTags);
   };
 
   useEffect(() => {
     if (post.id) {
       getAndSetPostTags();
+      getAndSetAllTags();
     }
   }, [post.id]);
 
@@ -37,12 +50,14 @@ const PostTags = ({ post }) => {
         postTags={postTags}
         setPostTags={setPostTags}
         saveTags={saveTags}
+        allTags={allTags}
+        postId={post.id}
       />
       {postTags.length > 0 ? (
         <Row>
-          {postTags.map((tag, index) => (
-            <Col xs={2} key={index} className="post-tag mx-2 p-1">
-              #{tag.name}
+          {postTags.map((postTag, index) => (
+            <Col xs={2} key={index} className="post-tag m-2 p-1">
+              #{postTag.tag.name}
             </Col>
           ))}
         </Row>
