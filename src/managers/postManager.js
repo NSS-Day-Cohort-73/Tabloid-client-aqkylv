@@ -1,14 +1,15 @@
 const _apiUrl = "/api/post";
 
-export const getAllPosts = () => {
-    return fetch(_apiUrl).then((res) => res.json());
+export const getAllPosts = (categoryId) => {
+  return fetch(`${_apiUrl}${categoryId ? `?categoryId=${categoryId}` : ''}`)
+    .then((res) => res.json());
 };
+
 
 export const getMyPosts = () => {
   return fetch(`${_apiUrl}/my-posts`).then((res) => res.json());
 };
 
-  
 export const createPost = (post) => {
   return fetch(_apiUrl, {
     method: "POST",
@@ -20,7 +21,7 @@ export const createPost = (post) => {
 };
 
 export const updatePost = (id, post) => {
-  return fetch(`/api/post/${id}`, {
+  return fetch(`${_apiUrl}/${id}`, {
       method: "PUT",
       headers: {
           "Content-Type": "application/json"
