@@ -59,11 +59,22 @@ export default function UserProfileDetails() {
 
   const handleDemote = async () => {
     try {
+      // Try to demote the user
       await demoteUser(userProfile.identityUserId);
+
+      // Refresh the profile after demotion
       const updatedProfile = await getProfile(id);
       setUserProfile(updatedProfile);
     } catch (error) {
-      console.error("Error demoting user:", error);
+      // Check if the error is from the backend response
+      if (error.message) {
+        // Display the error message to the user
+        alert(error.message);
+      } else {
+        // Handle any unexpected errors
+        console.error("Error demoting user:", error);
+        alert("An unexpected error occurred while trying to demote the user.");
+      }
     }
   };
 
