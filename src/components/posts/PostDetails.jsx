@@ -3,6 +3,7 @@ import { Button, Card, Container } from "reactstrap";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { deletePost, getById } from "../../managers/postManager";
 import ReactionBar from "../reactions/ReactionBar";
+import PostTags from "./PostTags";
 import { PostSubscription } from "../../managers/subscriptionManager";
 
 export default function PostDetails({ loggedInUser }) {
@@ -79,31 +80,31 @@ export default function PostDetails({ loggedInUser }) {
               <span className="mx-2">•</span>
               <span>{formatDate(post.publishingDate)}</span>
             </div>
-            
+            <PostTags post={post} />
             <div className="post-body text-center" dangerouslySetInnerHTML={{ __html: post.content }} />
-            
+
             {post.authorId === loggedInUser.id && (
               <Button onClick={() => deletePostFromDB(post.id)} className="float-end" color="danger">
                 Delete Post
               </Button>
             )}
-            
+
             <Button onClick={() => AddSubscription(subscription)} className="float-start" color="primary">
               Subscribe
             </Button>
+            
+            <ReactionBar postId={post.id} loggedInUser={loggedInUser} />
+            
+            <div className="button-container d-flex justify-content-around my-3">
+              <Button tag={Link} to={`/post/${id}/comments`} className="float-start" color="success">
+                View Comments
+              </Button>
+              <Button tag={Link} to={`/post/${id}/comments/add`} className="float-end" color="success">
+                Add A Comment
+              </Button>
+            </div>
           </div>
         </Card>
-        
-        <ReactionBar postId={post.id} loggedInUser={loggedInUser} />
-        
-        <div className="button-container">
-          <Button tag={Link} to={`/post/${id}/comments`} className="float-start" color="success">
-            View Comments
-          </Button>
-          <Button tag={Link} to={`/post/${id}/comments/add`} className="float-end" color="success">
-            Add A Comment
-          </Button>
-        </div>
       </Container>
     </div>
   );
