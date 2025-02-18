@@ -19,16 +19,37 @@ export const deactivateUser = (userId) => {
     },
   })
     .then((response) => {
+      // Check if the response is not OK
       if (!response.ok) {
-        throw new Error(`Failed to deactivate user: ${response.statusText}`);
+        // Check if the response body is JSON
+        const contentType = response.headers.get("Content-Type");
+
+        if (contentType && contentType.includes("application/json")) {
+          return response.json().then((errorData) => {
+            // Handle the error from JSON response
+            throw new Error(errorData.message || response.statusText);
+          });
+        } else {
+          // If the response is plain text, handle it here
+          return response.text().then((errorText) => {
+            if (
+              errorText ===
+              "You cannot deactivate the last active admin. There must always be at least one active admin."
+            ) {
+              throw new Error(errorText); // Throw the specific error message
+            } else {
+              throw new Error(`Failed to deactivate user: ${errorText}`);
+            }
+          });
+        }
       }
-      return response;
-    })
-    .then(() => {
+
       console.log("User deactivated successfully.");
+      return response; // Return response if everything is successful
     })
     .catch((error) => {
       console.error("Error deactivating user:", error);
+      alert(error.message); // Show the error message to the user
     });
 };
 
@@ -70,8 +91,14 @@ export const demoteUser = async (id) => {
     },
   });
 
+  // Check if the response is not OK
   if (!response.ok) {
-    throw new Error(`Failed to demote user: ${response.statusText}`);
+    // If the response is an error (400 or 500 range), extract the error message from the response body
+    const errorData = await response.json();
+    const errorMessage = errorData.message || response.statusText;
+
+    // Throw the error with the message from the server
+    throw new Error(`Failed to demote user: ${errorMessage}`);
   }
 };
 
