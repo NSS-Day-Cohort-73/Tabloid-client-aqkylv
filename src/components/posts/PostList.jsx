@@ -11,7 +11,7 @@ import {
   Row,
   Col
 } from "reactstrap";
-import { getAllPosts, getPostByCategoryId } from "../../managers/postManager";
+import { getAllPosts } from "../../managers/postManager";
 import { Link, useParams } from "react-router-dom";
 import { getAllCategories } from "../../managers/categoryManager";
 
@@ -40,13 +40,13 @@ export default function PostList() {
     if (categoryId === "") {
       getAllPosts().then(setPosts);
     } else {
-      getPostByCategoryId(categoryId).then(setPosts);
+      getAllPosts(categoryId).then(setPosts);
     }
   }
 
 
   if (!posts.length) {
-    return <Container>Loading...</Container>;
+    return <Container className="fs-2 d-flex justify-content-center">No Posts To See Here</Container>;
   }
 
   const formatDate = (dateString) => {
