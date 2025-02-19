@@ -110,3 +110,16 @@
   opacity: 1;
   background-color: var(--red);
 }
+
+.info-btn {
+  background-color: var(--grey);
+  color: white;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.info-btn:hover {
+  opacity: 1;
+  background-color: var(--grey);
+}

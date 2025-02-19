@@ -12,6 +12,10 @@ import CommentsList from "./comments/CommentsList";
 import PostDetails from "./posts/PostDetails";
 import CreateComment from "./comments/CreateComment";
 import TagList from "./tags/TagList";
+import MyPosts from "./posts/MyPosts";
+import UserProfilePosts from "./posts/UserProfilePosts";
+import Example from "./Example";
+import EditAPost from "./posts/EditAPost";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -48,7 +52,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="post/:id"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <PostDetails />
+              <PostDetails loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
@@ -57,6 +61,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <CreateAPost loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="createpost/:id"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <EditAPost loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
@@ -72,7 +84,15 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="my-posts"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>My Posts</p>
+              <MyPosts loggedInUser={loggedInUser} />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="userprofile/:id/posts"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <UserProfilePosts loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
@@ -118,6 +138,17 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
         </Route>
+
+
+        {/* DELETE LATER */}
+        <Route
+          path="example"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <Example />
+            </AuthorizedRoute>
+          }
+        />
         <Route
           path="categories"
           element={
