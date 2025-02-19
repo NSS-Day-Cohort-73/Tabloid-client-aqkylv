@@ -9,7 +9,7 @@ import {
   Label,
   Input,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 import { getAllPosts } from "../../managers/postManager";
 import { Link, useParams } from "react-router-dom";
@@ -44,9 +44,12 @@ export default function PostList() {
     }
   }
 
-
   if (!posts.length) {
-    return <Container className="fs-2 d-flex justify-content-center">No Posts To See Here</Container>;
+    return (
+      <Container className="fs-2 d-flex justify-content-center">
+        No Posts To See Here
+      </Container>
+    );
   }
 
   const formatDate = (dateString) => {
@@ -57,53 +60,57 @@ export default function PostList() {
     return `${month}/${day}/${year}`;
   };
 
-  return (<>
-    <Container>
-  <Row>
-    <Col xs="12" className="d-flex justify-content-end">
-      <div>
-        <Label>Filter By Category</Label>
-        <Input
-          type="select"
-          name="categoryId"
-          onChange={handleCategorySelect}
-        >
-          <option value="">Select a category</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </Input>
-      </div>
-    </Col>
-  </Row>
-</Container>
-    <Container className="mt-5">
-      
-      {posts.map((p) => (
-        <Card 
-          key={p.id}
-          outline
-          color="success"
-          style={{ marginBottom: "10px" }}
-        >
-          <CardBody>
-            <CardTitle tag="h5">
-                      <Link to={`/post/${p.id}`} style={{ textDecoration: 'none' }}>{p.title}</Link>
-            </CardTitle>
-            <CardText tag="div">
-              Author: {p.author.fullName}
-              <br />
-              Published On: {formatDate(p.publishingDate)}
-              <br />
-              Category: {p.category.name}
-            </CardText>
-          </CardBody>
-        </Card>
-      ))}
-      <Button href="/createpost"> NEW POST </Button>
-    </Container>
+  return (
+    <>
+      <Container>
+        <Row>
+          <Col xs="12" className="d-flex justify-content-end">
+            <div>
+              <Label>Filter By Category</Label>
+              <Input
+                type="select"
+                name="categoryId"
+                onChange={handleCategorySelect}
+              >
+                <option value="">Select a category</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </Input>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+      <Container className="mt-5">
+        {posts.map((p) => (
+          <Card
+            key={p.id}
+            outline
+            color="success"
+            style={{ marginBottom: "10px" }}
+          >
+            <CardBody>
+              <CardTitle tag="h5">
+                <Link to={`/post/${p.id}`} style={{ textDecoration: "none" }}>
+                  {p.title}
+                </Link>
+              </CardTitle>
+              <CardText tag="div">
+                Author: {p.author.fullName}
+                <br />
+                Published On: {formatDate(p.publishingDate)}
+                <br />
+                Category: {p.category.name}
+                <br />
+                Read Time: {p.readTime} {p.readTime > 1 ? "minutes" : "minute"}
+              </CardText>
+            </CardBody>
+          </Card>
+        ))}
+        <Button href="/createpost"> NEW POST </Button>
+      </Container>
     </>
   );
 }

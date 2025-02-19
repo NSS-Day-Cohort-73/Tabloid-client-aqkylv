@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Badge, Button, Card, Container } from "reactstrap";
+import { Badge, Button, Card, Container, Spinner } from "reactstrap";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { deletePost, getById } from "../../managers/postManager";
 import ReactionBar from "../reactions/ReactionBar";
@@ -22,7 +22,12 @@ export default function PostDetails({ loggedInUser }) {
     });
   }, [id]);
 
-  if (!post) return <Container>Loading...</Container>;
+  if (!post)
+    return (
+      <Container>
+        <Spinner />
+      </Container>
+    );
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -84,18 +89,22 @@ export default function PostDetails({ loggedInUser }) {
               {post.title.toUpperCase()}
             </h1>
             <div className="post-meta text-center mb-3">
-              <span className="post-author">
+              <span className="mx-2">
                 By: {post.author?.identityUser?.userName}
                 <Badge
                   onClick={() => AddSubscription(subscription)}
-                  className="mx-1 btn"
+                  className="ms-1 btn"
                   color="primary"
                 >
                   Subscribe
                 </Badge>
               </span>
-              <span className="mx-2">•</span>
+
               <span>{formatDate(post.publishingDate)}</span>
+              <span className="ms-2">
+                Read time: {post.readTime}{" "}
+                {post.readTime > 1 ? "minutes" : "minute"}
+              </span>
             </div>
             <PostTags post={post} />
             <div
