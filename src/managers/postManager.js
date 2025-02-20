@@ -1,8 +1,20 @@
 const _apiUrl = "/api/post";
 
-export const getAllPosts = (categoryId) => {
-  return fetch(`${_apiUrl}${categoryId ? `?categoryId=${categoryId}` : ''}`)
-    .then((res) => res.json());
+export const getAllPosts = (categoryId, tagId) => {
+  let url = _apiUrl;
+  if (categoryId || tagId) {
+    url += '?';
+    if (categoryId) {
+      url += `categoryId=${categoryId}`;
+    }
+    if (tagId) {
+      if (categoryId) {
+        url += '&';
+      }
+      url += `tagId=${tagId}`;
+    }
+  }
+  return fetch(url).then((res) => res.json());
 };
 
 

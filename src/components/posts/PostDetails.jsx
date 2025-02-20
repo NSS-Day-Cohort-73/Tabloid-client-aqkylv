@@ -4,30 +4,33 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { deletePost, getById } from "../../managers/postManager";
 import ReactionBar from "../reactions/ReactionBar";
 import PostTags from "./PostTags";
-import { PostSubscription } from "../../managers/subscriptionManager";
+import { deleteSubscription, PostSubscription, checkSubscription } from "../../managers/subscriptionManager";
 
 export default function PostDetails({ loggedInUser }) {
   const [post, setPost] = useState(null);
-  const [subscription, setSubscription] = useState(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [subscriptionId, setSubscriptionId] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     getById(id).then((postData) => {
       setPost(postData);
-      setSubscription({
-        authorId: postData.authorId,
-        subscriberId: loggedInUser.id,
-      });
+      checkSubscription(postData.authorId, loggedInUser.id)
+        .then(({ isSubscribed, subscriptionId }) => {
+          setIsSubscribed(isSubscribed);
+          setSubscriptionId(subscriptionId || null);
+        });
     });
   }, [id]);
 
-  if (!post)
+  if (!post) {
     return (
       <Container>
         <Spinner />
       </Container>
     );
+  }
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -43,25 +46,52 @@ export default function PostDetails({ loggedInUser }) {
     }
   };
 
-  const AddSubscription = (subscription) => {
-    if (!subscription.authorId) {
-      window.alert("Author not valid");
-      return;
-    }
-    if (subscription.authorId === subscription.subscriberId) {
-      window.alert("You can't subscribe to yourself silly!");
+  const handleSubscribe = () => {
+    if (post.authorId === loggedInUser.id) {
+      window.alert("You can't subscribe to yourself!");
       return;
     }
 
-    PostSubscription(subscription).then((response) => {
-      if (response.ok) {
+    const subscription = {
+      authorId: post.authorId,
+      subscriberId: loggedInUser.id
+    };
+
+    PostSubscription(subscription)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+      })
+      .then((data) => {
+        setIsSubscribed(true);
+        setSubscriptionId(data.id);
         window.alert("Subscribed successfully");
-      } else {
-        return response.json().then((data) => {
+      })
+      .catch((response) => {
+        response.json().then((data) => {
           window.alert(data.error);
         });
-      }
-    });
+      });
+  };
+
+  const handleUnsubscribe = () => {
+    if (!subscriptionId) {
+      window.alert("No subscription found");
+      return;
+    }
+
+    deleteSubscription(subscriptionId)
+      .then((response) => {
+        if (response.ok) {
+          setIsSubscribed(false);
+          setSubscriptionId(null);
+          window.alert("Unsubscribed successfully");
+        } else {
+          window.alert("Failed to unsubscribe");
+        }
+      });
   };
 
   return (
@@ -91,21 +121,23 @@ export default function PostDetails({ loggedInUser }) {
             <div className="post-meta text-center mb-3">
               <span className="mx-2">
                 By: {post.author?.identityUser?.userName}
-                <Badge
-                  onClick={() => AddSubscription(subscription)}
-                  className="ms-1 btn"
-                  color="primary"
-                >
-                  Subscribe
-                </Badge>
+                {post.authorId !== loggedInUser.id && (
+                  <Badge
+                    onClick={isSubscribed ? handleUnsubscribe : handleSubscribe}
+                    className="ms-1 btn"
+                    color="primary"
+                  >
+                    {isSubscribed ? "Unsubscribe" : "Subscribe"}
+                  </Badge>
+                )}
               </span>
-
               <span>{formatDate(post.publishingDate)}</span>
               <span className="ms-2">
                 Read time: {post.readTime}{" "}
                 {post.readTime > 1 ? "minutes" : "minute"}
               </span>
             </div>
+
             <PostTags post={post} />
             <div
               className="post-body text-start"
