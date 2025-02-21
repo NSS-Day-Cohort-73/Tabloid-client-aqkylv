@@ -140,15 +140,6 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
         </Route>
 
 
-        {/* DELETE LATER */}
-        <Route
-          path="example"
-          element={
-            <AuthorizedRoute loggedInUser={loggedInUser}>
-              <Example />
-            </AuthorizedRoute>
-          }
-        />
         <Route
           path="categories"
           element={
