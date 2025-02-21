@@ -18,12 +18,14 @@ import { getAllCategories } from "../../managers/categoryManager";
 import { getAllTags } from "../../managers/tagManager";
 import PostItem from "./PostItem";
 
-export default function PostList() {
+export default function PostList({ loggedInUser }) {
   const [posts, setPosts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedTag, setSelectedTag] = useState(null);
+  const [showApproved, setShowApproved] = useState(true);
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
 
   function getAndSetPosts() {
     getAllPosts().then(setPosts);
@@ -46,16 +48,12 @@ export default function PostList() {
   }, []);
 
   useEffect(() => {
-    if (selectedCategory && selectedTag) {
-      getAllPosts(selectedCategory, selectedTag).then(setPosts);
-    } else if (selectedCategory) {
-      getAllPosts(selectedCategory).then(setPosts);
-    } else if (selectedTag) {
-      getAllPosts(null, selectedTag).then(setPosts);
+    if (selectedCategory || selectedTag) {
+      getAllPosts(selectedCategory, selectedTag, showApproved).then(setPosts);
     } else {
-      getAndSetPosts();
+      getAllPosts(null, null, showApproved).then(setPosts);
     }
-  }, [selectedCategory, selectedTag]);
+  }, [selectedCategory, selectedTag, showApproved, refreshTrigger]);
 
   function handleCategorySelect(e) {
     const categoryId = e.target.value;
@@ -66,6 +64,14 @@ export default function PostList() {
     const tagId = e.target.value;
     setSelectedTag((prev) => tagId);
   }
+
+  const toggleShowApproved = () => {
+    setShowApproved((prev) => !prev);
+  };
+
+  const triggerRefresh = () => {
+    setRefreshTrigger((prev) => !prev);
+  };
 
   if (!posts) {
     return (
@@ -107,7 +113,7 @@ export default function PostList() {
             </Col>
             <Col md={8} className="mt-5">
               <Row className="mb-4">
-                <Col md={12}>
+                <Col>
                   <Label>
                     <h3>Filter By Category</h3>
                   </Label>
@@ -124,9 +130,29 @@ export default function PostList() {
                     ))}
                   </Input>
                 </Col>
+                {loggedInUser.roles.includes("Admin") && showApproved ? (
+                  <Col className="align-self-end" sm={2}>
+                    <Button className="w-100" onClick={toggleShowApproved}>
+                      Show Un-Approved
+                    </Button>
+                  </Col>
+                ) : loggedInUser.roles.includes("Admin") && !showApproved ? (
+                  <Col className="align-self-end" sm={2}>
+                    <Button className="w-100" onClick={toggleShowApproved}>
+                      Show Approved
+                    </Button>
+                  </Col>
+                ) : null}
               </Row>
               {posts.length ? (
-                posts.map((p) => <PostItem key={p.id} post={p} />)
+                posts.map((p) => (
+                  <PostItem
+                    key={p.id}
+                    post={p}
+                    loggedInUser={loggedInUser}
+                    onRefresh={triggerRefresh}
+                  />
+                ))
               ) : (
                 <h2>No Posts Found</h2>
               )}

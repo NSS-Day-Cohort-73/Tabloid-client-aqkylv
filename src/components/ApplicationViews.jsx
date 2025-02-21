@@ -44,7 +44,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="explore"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <PostList />
+              <PostList loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
@@ -138,7 +138,6 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
         </Route>
-
 
         <Route
           path="categories"

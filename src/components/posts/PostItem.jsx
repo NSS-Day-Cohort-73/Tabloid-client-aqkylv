@@ -7,16 +7,28 @@ import {
   Row,
   Col,
   CardImg,
+  Button,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { approvePost, unapprovePost } from "../../managers/postManager";
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, loggedInUser, onRefresh }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
+  };
+
+  const handleApprove = async () => {
+    await approvePost(post.id);
+    onRefresh();
+  };
+
+  const handleUnapprove = async () => {
+    await unapprovePost(post.id);
+    onRefresh();
   };
 
   return (
@@ -50,6 +62,21 @@ const PostItem = ({ post }) => {
 
         {/* Right Column (Post metadata) */}
         <Col md="3" className="d-flex flex-column justify-content-center p-3">
+          {loggedInUser.roles.includes("Admin") ? (
+            post.isApproved ? (
+              <CardText>
+                <Button outline color="danger" onClick={handleUnapprove}>
+                  Un-Approve
+                </Button>
+              </CardText>
+            ) : (
+              <CardText>
+                <Button outline color="success" onClick={handleApprove}>
+                  Approve
+                </Button>
+              </CardText>
+            )
+          ) : null}
           <CardText>
             <strong>Author:</strong> {post.author.fullName}
           </CardText>
