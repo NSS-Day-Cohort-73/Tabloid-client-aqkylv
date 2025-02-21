@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink as RRNavLink } from "react-router-dom";
+import { Link, NavLink as RRNavLink } from "react-router-dom";
 import {
   Button,
   Collapse,
@@ -87,6 +87,17 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                 )}
               </Nav>
             </Collapse>
+            <Link
+              className="me-2 text-light text-decoration-none"
+              to={`/userprofiles/${loggedInUser.id}`}
+            >
+              <img
+                className="profile-image-small"
+                src={loggedInUser.imageLocation}
+                alt="profile"
+              />
+              {loggedInUser.firstName} {loggedInUser.lastName}
+            </Link>
             <Button
               color="danger"
               onClick={(e) => {

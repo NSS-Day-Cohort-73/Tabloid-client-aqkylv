@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import {
   getProfile,
   promoteUser,
-  demoteUser,
   updateUserProfileImage,
 } from "../../managers/userProfileManager";
+import {
+  executeAdminAction,
+  getAdminActionCount,
+} from "../../managers/adminActionManager";
 import { tryGetLoggedInUser } from "../../managers/authManager";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -14,6 +17,8 @@ import {
   ModalBody,
   ModalFooter,
   Container,
+  Alert,
+  Badge,
 } from "reactstrap";
 
 import ImageUploader from "../imageUploader";
@@ -25,6 +30,12 @@ export default function UserProfileDetails() {
 
   const [newImageUrl, setNewImageUrl] = useState("");
   const [showModal, setShowModal] = useState(false); // <-- For toggling the modal
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalAction, setModalAction] = useState(null);
+  const [demoteVotes, setDemoteVotes] = useState(0);
 
   const { id } = useParams();
   const intId = parseInt(id);
@@ -46,6 +57,15 @@ export default function UserProfileDetails() {
     });
   }, [id]);
 
+  // Fetch the number of votes to demote the user
+  useEffect(() => {
+    if (userProfile) {
+      getAdminActionCount(userProfile.id, "demote").then((votes) =>
+        setDemoteVotes(votes)
+      );
+    }
+  }, [userProfile]);
+
   // ----- Promote/Demote Admin Handlers -----
   const handlePromote = async () => {
     try {
@@ -57,24 +77,30 @@ export default function UserProfileDetails() {
     }
   };
 
-  const handleDemote = async () => {
-    try {
-      // Try to demote the user
-      await demoteUser(userProfile.identityUserId);
+  const handleDemote = (userId) => {
+    setModalMessage("Are you sure you want to demote this user?");
+    setModalAction(() => () => executeDemotion(userId));
+    setModalVisible(true);
+  };
 
-      // Refresh the profile after demotion
-      const updatedProfile = await getProfile(id);
+  const executeDemotion = async (userId) => {
+    try {
+      const data = await executeAdminAction(userId, "demote");
+      setAlertMessage(data.message);
+      setAlertVisible(true);
+      setTimeout(() => setAlertVisible(false), 5000);
+
+      const updatedProfile = await getProfile(userId);
       setUserProfile(updatedProfile);
+
+      const votes = await getAdminActionCount(userId, "demote");
+      setDemoteVotes(votes);
     } catch (error) {
-      // Check if the error is from the backend response
-      if (error.message) {
-        // Display the error message to the user
-        alert(error.message);
-      } else {
-        // Handle any unexpected errors
-        console.error("Error demoting user:", error);
-        alert("An unexpected error occurred while trying to demote the user.");
-      }
+      setAlertMessage(error.message);
+      setAlertVisible(true);
+      setTimeout(() => setAlertVisible(false), 5000);
+    } finally {
+      setModalVisible(false);
     }
   };
 
@@ -144,8 +170,15 @@ export default function UserProfileDetails() {
       {isAdmin && (
         <div>
           {userProfile.roles.includes("Admin") ? (
-            <Button className="delete-btn" onClick={handleDemote}>
+            <Button
+              outline
+              color="danger"
+              onClick={() => handleDemote(userProfile.id)}
+            >
               Demote from Admin
+              <Badge className="ms-2" color="danger">
+                Votes: {demoteVotes}
+              </Badge>
             </Button>
           ) : (
             <Button className="save-btn" onClick={handlePromote}>
@@ -195,6 +228,32 @@ export default function UserProfileDetails() {
           </Button>
         </ModalFooter>
       </Modal>
+
+      {/* Modal for confirmation */}
+      <Modal isOpen={modalVisible} toggle={() => setModalVisible(false)}>
+        <ModalHeader toggle={() => setModalVisible(false)}>
+          Confirmation
+        </ModalHeader>
+        <ModalBody>{modalMessage}</ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={modalAction}>
+            Confirm
+          </Button>
+          <Button color="secondary" onClick={() => setModalVisible(false)}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+
+      {/* Alert for demotion success */}
+      <Alert
+        color="info"
+        isOpen={alertVisible}
+        toggle={() => setAlertVisible(false)}
+        timeout={{ appear: 500, enter: 500, exit: 500 }}
+      >
+        {alertMessage}
+      </Alert>
     </Container>
   );
 }
