@@ -5,6 +5,13 @@ export const checkSubscription = (authorId, subscriberId) => {
     .then(res => res.json());
 };
 
+
+export const getMySubscriptions = () => {
+  return fetch(_apiUrl)
+    .then(res => res.json());
+};
+
+
 export const PostSubscription = (subscription) => {
   return fetch(_apiUrl, {
     method: "POST",

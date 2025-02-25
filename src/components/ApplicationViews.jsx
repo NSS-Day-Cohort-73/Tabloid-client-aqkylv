@@ -17,6 +17,7 @@ import UserProfilePosts from "./posts/UserProfilePosts";
 import Example from "./Example";
 import EditAPost from "./posts/EditAPost";
 import { MyHomePage } from "./home/homePageSubscribedToPostList";
+import SubscriptionList from "./subscriptions/SubscriptionList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -74,10 +75,10 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           }
         />
         <Route
-          path="subscribed-posts"
+          path="subscriptions"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>Subscribed Posts</p>
+              <SubscriptionList  loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
