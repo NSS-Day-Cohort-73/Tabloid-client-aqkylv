@@ -32,9 +32,9 @@ export default function MyPosts({ loggedInUser }) {
        <h2 className="text-center fs-1">My Posts</h2>
       {posts.length === 0 ? (
         <Alert color="info" className="mt-4">
-        <h4 className="alert-heading">  You don't have any self-published posts to view. Click here to create a new post!</h4>
+        <h4 className="text-center alert-heading">  You don't have any self-published posts to view. Click here to create a new post!</h4>
         <hr />
-        <p className="mb-0">
+        <p className="text-center mb-0">
           <Link to="/createpost" className="alert-link">
             Create a new Post!
             </Link>

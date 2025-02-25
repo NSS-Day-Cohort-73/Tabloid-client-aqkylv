@@ -46,9 +46,9 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                   <NavLink
                     className="navbar-route"
                     tag={RRNavLink}
-                    to="/subscribed-posts"
+                    to="/subscriptions"
                   >
-                    Subscribed Posts
+                    Subscriptions
                   </NavLink>
                 </NavItem>
                 <NavItem>
