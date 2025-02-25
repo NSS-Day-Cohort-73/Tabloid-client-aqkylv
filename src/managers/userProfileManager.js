@@ -1,5 +1,8 @@
 const _apiUrl = "/api/userprofile";
 
+export const getProfilesForHomepage = () => {
+  return fetch(_apiUrl).then((res) => res.json());
+}; 
 // Get all profiles with roles
 export const getProfiles = () => {
   return fetch(_apiUrl + "/withroles").then((res) => res.json());

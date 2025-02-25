@@ -5,25 +5,18 @@ import {
   CardTitle,
   CardText,
   Container,
-  Button
+  Button,
+  Alert
 } from "reactstrap";
-import { getById, getMyPosts } from "../../managers/postManager";
-import { Link, useParams } from "react-router-dom";
+import { getMyPosts } from "../../managers/postManager";
+import { Link } from "react-router-dom";
+import PostItem from "./PostItem";
 
-export default function MyPosts() {
+export default function MyPosts({ loggedInUser }) {
   const [posts, setPosts] = useState([]);
 
-  const { id } = useParams();
-
-  function getAndSetPosts() {
-    getMyPosts().then(setPosts);
-  }
-
-  
-
-
   useEffect(() => {
-    getAndSetPosts();
+    getMyPosts().then(setPosts);
   }, []);
 
   const formatDate = (dateString) => {
@@ -36,29 +29,22 @@ export default function MyPosts() {
 
   return (
     <Container>
-      {posts.map((p) => (
-        <Card
-          key={p.id}
-          outline
-          color="success"
-          style={{ marginBottom: "10px" }}
-        >
-          <CardBody>
-            <CardTitle tag="h5">
-              <Link to={`/post/${p.id}`} style={{ textDecoration: 'none' }}>{p.title}</Link>
-            </CardTitle>
-            <CardText tag="div">
-              Author: {p.author.fullName}
-              <br />
-              Published On: {formatDate(p.publishingDate)}
-              <br />
-              Category: {p.category.name}
-            </CardText>
-            <Link to={`/createpost/${p.id}`} className="btn btn-primary">Edit Post</Link>
-          </CardBody>
-        </Card>
-      ))}
-      
+       <h2 className="text-center fs-1">My Posts</h2>
+      {posts.length === 0 ? (
+        <Alert color="info" className="mt-4">
+        <h4 className="alert-heading">  You don't have any self-published posts to view. Click here to create a new post!</h4>
+        <hr />
+        <p className="mb-0">
+          <Link to="/createpost" className="alert-link">
+            Create a new Post!
+            </Link>
+            </p>
+        </Alert>
+      ) : (
+        posts.map((p) => (
+          <PostItem key={p.id} post={p} loggedInUser={loggedInUser} onRefresh={() => getMyPosts().then(setPosts)} />
+        ))
+      )}
     </Container>
-  )
+  );
 }
