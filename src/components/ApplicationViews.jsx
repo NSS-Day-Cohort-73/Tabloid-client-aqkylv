@@ -16,6 +16,7 @@ import MyPosts from "./posts/MyPosts";
 import UserProfilePosts from "./posts/UserProfilePosts";
 import Example from "./Example";
 import EditAPost from "./posts/EditAPost";
+import { MyHomePage } from "./home/homePageSubscribedToPostList";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -36,7 +37,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           index
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>Welcome to Tabloid!</p>
+             <MyHomePage loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />

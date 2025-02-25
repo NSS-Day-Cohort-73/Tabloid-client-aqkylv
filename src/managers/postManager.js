@@ -1,8 +1,8 @@
 const _apiUrl = "/api/post";
 
-export const getAllPosts = (categoryId, tagId, approved) => {
+export const getAllPosts = (categoryId, tagId, approved, subscribed) => {
   let url = _apiUrl;
-  if (categoryId || tagId || approved !== undefined) {
+  if (categoryId || tagId || approved !== undefined || subscribed) {
     url += "?";
     const params = [];
     if (categoryId) {
@@ -14,9 +14,16 @@ export const getAllPosts = (categoryId, tagId, approved) => {
     if (approved !== undefined) {
       params.push(`approved=${approved}`);
     }
+    if (subscribed) {
+      params.push(`subscribed=true`);
+    }
     url += params.join("&");
   }
   return fetch(url).then((res) => res.json());
+};
+
+export const getSubscribedPosts = () => {
+  return getAllPosts(null, null, true, true);
 };
 
 export const getMyPosts = () => {
